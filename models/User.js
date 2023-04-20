@@ -3,10 +3,17 @@ const { Schema, model } = require("mongoose");
 // Schema to create User model
 const userSchema = new Schema(
   {
-    username: { type: String, unique: true, required: true, trimmed: true },
-    email: { type: String, unique: true, required: true, match: [
-      /.+@.\..+/, "Invalid email"
-    ]},
+    username: { 
+      type: String, 
+      unique: true, 
+      required: true, 
+      trimmed: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/.+\@.+\..+/, "Invalid email"],
+    },
     thoughts: [
       {
         type: Schema.Types.ObjectId,
@@ -36,7 +43,7 @@ userSchema
   // Getter
   .get(function () {
     return this.friends.length;
-  })
+  });
 
 // Initialize our User model
 const User = model("User", userSchema);
