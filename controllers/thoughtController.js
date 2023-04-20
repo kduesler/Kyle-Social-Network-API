@@ -80,11 +80,11 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Adds a tag to an thought. This method is unique in that we add the entire body of the tag rather than the ID with the mongodb $addToSet operator.
+  // Adds a reaction to an thought. This method is unique in that we add the entire body of the reaction rather than the ID with the mongodb $addToSet operator.
   addReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $addToSet: { tags: req.body } },
+      { $addToSet: { reactions: req.body } },
       { runValidators: true, new: true }
     )
       .then((thought) =>
@@ -94,11 +94,11 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Remove thought tag. This method finds the thought based on ID. It then updates the tags array associated with the app in question by removing it's tagId from the tags array.
+  // Remove thought reaction. This method finds the thought based on ID. It then updates the reactions array associated with the app in question by removing it's reactionId from the reactions array.
   removeReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $pull: { tags: { tagId: req.params.tagId } } },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
       { runValidators: true, new: true }
     )
       .then((thought) =>
