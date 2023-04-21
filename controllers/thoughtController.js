@@ -19,7 +19,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   // Creates a new thought. Accepts a request body with the entire Thought object.
-  // Because thoughts are associated with Users, we then update the User who created the app and add the ID of the thought to the thoughts array
+  // Because thoughts are associated with Users, we then update the User who created the thought and add the ID of the thought to the thoughts array
   createThought(req, res) {
     Thought.create(req.body)
       .then((thought) => {
@@ -58,8 +58,8 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  // Deletes an thought from the database. Looks for an app by ID.
-  // Then if the app exists, we look for any users associated with the app based on he app ID and update the thoughts array for the User.
+  // Deletes a thought from the database. Looks for a thought by ID.
+  // Then if the thought exists, we look for any users associated with the thought based on he thought ID and update the thoughts array for the User.
   deleteThought(req, res) {
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
       .then((thought) =>
@@ -74,7 +74,7 @@ module.exports = {
       .then((user) =>
         !user
           ? res.status(404).json({
-              message: 'Thought created but no user with this id!',
+              message: 'No user with this id!',
             })
           : res.json({ message: 'Thought successfully deleted!' })
       )
@@ -94,7 +94,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Remove thought reaction. This method finds the thought based on ID. It then updates the reactions array associated with the app in question by removing it's reactionId from the reactions array.
+  // Remove thought reaction. This method finds the thought based on ID. It then updates the reactions array associated with the thought in question by removing it's reactionId from the reactions array.
   removeReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
